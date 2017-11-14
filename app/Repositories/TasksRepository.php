@@ -44,10 +44,25 @@ class TasksRepository
     {
         $task = Task::find($id);
 
-        $task->name = request('name');
-        $task->user_id = request('user_id');
+        if(request()->has('name')) {
+            $task->name = request('name');
+        }
+        if(request()->has('user_id')) {
+            $task->user_id = request('user_id');
+        }
 
         return $task->save();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        $task = Task::find($id);
+
+        return $task->delete();
     }
 
 }

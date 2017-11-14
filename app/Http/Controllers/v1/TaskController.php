@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\v1;
 
 use App\Acme\Transformers\TaskTransformer;
-use App\Http\Requests\CreateTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\TaskRequest;
 use App\Repositories\TasksRepository;
-use App\Models\Task;
 
 class TaskController extends ApiController
 {
@@ -27,7 +25,7 @@ class TaskController extends ApiController
      */
     public function index(TasksRepository $tasksRepository)
     {
-        return $this->respond($this->transformer->transformCollection($tasksRepository->all()->toArray()), 200);
+        return $this->respond($this->transformer->transformCollection($tasksRepository->all()->toArray()));
     }
 
     /**
@@ -46,7 +44,7 @@ class TaskController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateTaskRequest $request, TasksRepository $tasksRepository)
+    public function store(TaskRequest $request, TasksRepository $tasksRepository)
     {
         $tasksRepository->create();
 
@@ -63,11 +61,11 @@ class TaskController extends ApiController
     {
         $task = $tasksRepository->find($id);
 
-        if(!$task) {
+        if( ! $task) {
             return $this->respondNotFound('task not found');
         }
 
-        return $this->respond($this->transformer->transform(Task::find($id))) ;
+        return $this->respond($this->transformer->transform($tasksRepository->find($id))) ;
     }
 
     /**
@@ -88,9 +86,9 @@ class TaskController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, $id, TasksRepository $tasksRepository)
+    public function update(TaskRequest $request, $id, TasksRepository $tasksRepository)
     {
-        if(!Task::find($id)) {
+        if( ! $tasksRepository->find($id)) {
             return $this->respondNotFound('task not found');
         }
 
@@ -104,15 +102,15 @@ class TaskController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, TasksRepository $tasksRepository)
     {
-        $task = Task::find($id);
+        $task = $tasksRepository->find($id);
 
-        if(!$task) {
+        if( ! $task) {
             return $this->respondNotFound('task not found');
         }
 
-        $task->delete();
+        $tasksRepository->delete($id);
 
         return $this->respondSuccess('task deleted');
     }

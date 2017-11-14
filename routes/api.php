@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1'], function() {
     Route::resource('tasks', 'v1\TaskController');
 });
+
+Route::group(['prefix' => 'v1'], function() {
+    Route::resource('comments', 'v1\CommentController');
+});

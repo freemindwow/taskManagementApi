@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTaskRequest extends FormRequest
+class TaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,21 @@ class UpdateTaskRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'user_id' => 'required|exists:users,id'
-        ];
+        switch($this->method()) {
+            case 'POST': {
+                return [
+                    'name' => 'required',
+                    'user_id' => 'required|exists:users,id'
+                ];
+            }
+            case 'PUT':
+            case 'PATCH': {
+                return [
+                    'name' => 'sometimes|required',
+                    'user_id' => 'sometimes|required|exists:users,id'
+                ];
+            }
+        }
     }
 
     /**
@@ -39,5 +50,4 @@ class UpdateTaskRequest extends FormRequest
             'user_id' => 'User ID'
         ];
     }
-
 }
