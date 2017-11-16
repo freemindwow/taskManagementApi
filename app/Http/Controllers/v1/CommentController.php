@@ -2,22 +2,13 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Acme\Transformers\CommentTransformer;
 use App\Http\Requests\CommentRequest;
 use App\Repositories\CommentsRepository;
+use App\Http\Resources\Comment as CommentResource;
+use App\Http\Resources\CommentCollection;
 
 class CommentController extends ApiController
 {
-    /**
-     * CommentController constructor.
-     *
-     * @param CommentTransformer $transformer
-     */
-    public function __construct(CommentTransformer $transformer)
-    {
-        $this->transformer = $transformer;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +16,7 @@ class CommentController extends ApiController
      */
     public function index(CommentsRepository $commentsRepository)
     {
-        return $this->respond($this->transformer->transformCollection($commentsRepository->all()->toArray()));
+        return new CommentCollection($commentsRepository->all());
     }
 
     /**
@@ -65,7 +56,7 @@ class CommentController extends ApiController
             return $this->respondNotFound('Comment not fond');
         }
 
-        return $this->respond($this->transformer->transform($comment));
+        return new CommentResource($comment);
     }
 
     /**

@@ -2,22 +2,13 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Acme\Transformers\TaskTransformer;
 use App\Http\Requests\TaskRequest;
 use App\Repositories\TasksRepository;
+use App\Http\Resources\Task as TaskResource;
+use App\Http\Resources\TaskCollection;
 
 class TaskController extends ApiController
 {
-    /**
-     * UserController constructor.
-     *
-     * @param TaskTransformer $transformer
-     */
-    public function __construct(TaskTransformer $transformer)
-    {
-        $this->transformer = $transformer;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +16,7 @@ class TaskController extends ApiController
      */
     public function index(TasksRepository $tasksRepository)
     {
-        return $this->respond($this->transformer->transformCollection($tasksRepository->all()->toArray()));
+        return new TaskCollection($tasksRepository->all());
     }
 
     /**
@@ -65,7 +56,7 @@ class TaskController extends ApiController
             return $this->respondNotFound('task not found');
         }
 
-        return $this->respond($this->transformer->transform($tasksRepository->find($id))) ;
+        return new TaskResource($task);
     }
 
     /**
