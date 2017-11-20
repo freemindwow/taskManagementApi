@@ -16,7 +16,7 @@ class CommentController extends ApiController
      */
     public function index(CommentsRepository $commentsRepository)
     {
-        return new CommentCollection($commentsRepository->all());
+        return new CommentCollection($commentsRepository->paginate());
     }
 
     /**

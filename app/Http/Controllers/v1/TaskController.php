@@ -16,7 +16,7 @@ class TaskController extends ApiController
      */
     public function index(TasksRepository $tasksRepository)
     {
-        return new TaskCollection($tasksRepository->all());
+        return new TaskCollection($tasksRepository->paginate());
     }
 
     /**

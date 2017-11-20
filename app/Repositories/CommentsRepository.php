@@ -16,6 +16,14 @@ class CommentsRepository
     }
 
     /**
+     * @return mixed
+     */
+    public function paginate() {
+        $limit = request('limit') ?: 50;
+        return Comment::paginate($limit);
+    }
+
+    /**
      * @param $id
      * @return mixed
      */

@@ -16,6 +16,14 @@ class TasksRepository
     }
 
     /**
+     * @return mixed
+     */
+    public function paginate() {
+        $limit = request('limit') ?: 50;
+        return Task::paginate($limit);
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
