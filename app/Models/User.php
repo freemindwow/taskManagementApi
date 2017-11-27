@@ -30,6 +30,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function project()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class);

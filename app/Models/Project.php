@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Task extends Model
+class Project extends Model
 {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -15,8 +15,8 @@ class Task extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function comments()
+    public function tasks()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Task::class);
     }
 }
