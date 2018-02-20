@@ -18,8 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function() {
-    Route::resource('projects', 'v1\ProjectController');
-    Route::resource('tasks', 'v1\TaskController');
-    Route::resource('projects.tasks', 'v1\ProjectTaskController');
-    Route::resource('comments', 'v1\CommentController');
+    Route::apiResource('projects', 'v1\ProjectController');
+    Route::apiResource('tasks', 'v1\TaskController');
+    Route::apiResource('projects.tasks', 'v1\ProjectTaskController');
+    Route::apiResource('comments', 'v1\CommentController');
 });
